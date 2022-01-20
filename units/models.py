@@ -2,15 +2,35 @@ from django.urls import reverse # Used to generate URLs by reversing the URL pat
 from django.db import models
 
 class Unit(models.Model):
-    """Model representing a Unit"""
+    """Model representing a Unit - a class"""
     title = models.CharField(max_length=200)
 
-    # Foreign Key used because units can only have one coordinator, but coordinators can have multiple units
-    # Coordinator as a string rather than object because it hasn't been declared yet in the file
-    coordinator = models.ForeignKey('Coordinator', on_delete=models.SET_NULL, null=True)
+    # primary_key=True & unique=True - the primary key for model must be different for every unit
+    code = models.CharField('Code', primary_key=True, max_length=8, unique=True, help_text='4 letter & 4 digit Unit Code <a href="https://handbooks.uwa.edu.au//search">UWA handbook</a>')
 
-    code = models.CharField('Code', primary_key=True, max_length=8, unique=True)
+    # Foreign key - unit has only one coordinator but coordinator can have many units
+    # null=False - unit must have coordinator
+    # on_delete=models.PROTECT - so can't delete coordinator until unit is deleted
+    # coordinator = models.ForeignKey('Coordinator', on_delete=models.PROTECT, null=False)
+    coordinator = models.ForeignKey('Coordinator', on_delete=models.SET_NULL, null=True)
+    # Lecturer can have many units & units can have many lecturers
+    lecturer = models.ManyToManyField('Lecturer')
+    # Can have many facilitators & facilitators can have many units
+    lab_facilitator = models.ManyToManyField('lab_facilitator')
+
+    # Description of unit
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the unit')
+
+    availability = (
+        ('ns', 'non-standard teaching period'),
+        ('os', 'offshore teaching period'),
+        ('s1', 'semester 1'),
+        ('s2', 'semester 2'),
+        ('ss', 'summer school'),
+        ('t1', 'trimester 1'),
+        ('t2', 'trimester 2'),
+        ('t3', 'trimester 3'),
+    )
 
     class Meta:
         ordering = ['code']
@@ -25,8 +45,40 @@ class Unit(models.Model):
 
 class Coordinator(models.Model):
     """Model representing a coordinator"""
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+
+    class Meta:
+        ordering = ['last_name', 'first_name']
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular coordinator instance."""
+        return reverse('coordinator-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.last_name}, {self.first_name}'
+
+class Lecturer(models.Model):
+    """Model representing a coordinator"""
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+
+    class Meta:
+        ordering = ['last_name', 'first_name']
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular coordinator instance."""
+        return reverse('coordinator-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.last_name}, {self.first_name}'
+
+class lab_facilitator(models.Model):
+    """Model representing a coordinator"""
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
 
     class Meta:
         ordering = ['last_name', 'first_name']
