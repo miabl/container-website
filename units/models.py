@@ -21,15 +21,24 @@ class Unit(models.Model):
     # Description of unit
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the unit')
 
-    availability = (
-        ('ns', 'non-standard teaching period'),
-        ('os', 'offshore teaching period'),
+    OFFERING = (
         ('s1', 'semester 1'),
         ('s2', 'semester 2'),
         ('ss', 'summer school'),
+        ('ns', 'non-standard teaching period'),
+        ('os', 'offshore teaching period'),
         ('t1', 'trimester 1'),
         ('t2', 'trimester 2'),
         ('t3', 'trimester 3'),
+        ('na', 'not available')
+    )
+
+    availability = models.CharField(
+        max_length=2,
+        choices=OFFERING,
+        blank=True,
+        default='ns',
+        help_text='Teaching period the unit is available',
     )
 
     class Meta:
@@ -45,6 +54,7 @@ class Unit(models.Model):
 
 class Coordinator(models.Model):
     """Model representing a coordinator"""
+    title = models.CharField(max_length=10, default = 'Dr.', help_text='E.g. Dr. Prof. Mr.')
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
 
@@ -61,6 +71,7 @@ class Coordinator(models.Model):
 
 class Lecturer(models.Model):
     """Model representing a coordinator"""
+    title = models.CharField(max_length=10, default = 'Dr.', help_text='E.g. Dr. Prof. Mr.')
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
 
@@ -69,7 +80,7 @@ class Lecturer(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a particular coordinator instance."""
-        return reverse('coordinator-detail', args=[str(self.id)])
+        return reverse('lecturer-detail', args=[str(self.id)])
 
     def __str__(self):
         """String for representing the Model object."""
@@ -77,6 +88,7 @@ class Lecturer(models.Model):
 
 class lab_facilitator(models.Model):
     """Model representing a coordinator"""
+    title = models.CharField(max_length=10, default = 'Dr.', help_text='E.g. Dr. Prof. Mr.')
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
 
@@ -85,7 +97,7 @@ class lab_facilitator(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a particular coordinator instance."""
-        return reverse('coordinator-detail', args=[str(self.id)])
+        return reverse('lab_facilitator-detail', args=[str(self.id)])
 
     def __str__(self):
         """String for representing the Model object."""
