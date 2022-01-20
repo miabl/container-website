@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <p>{{ container.name }}</p>
+    <p><strong>Description: </strong>{{ container.description }}</p>
+    <p><strong>Instructions: </strong>{{ container.instructions }}</p>
+
+    <form method="post" action="{% url 'start-container' %}">
+        {% csrf_token %}
+        <button>start container</button>
+    </form>
+{% endblock %}

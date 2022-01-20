@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    <h1>Container List</h1>
+    {% if container_list %}
+        <ul>
+            {% for container in container_list %}
+                <li>
+                    <a href="{{ container.get_absolute_url }}">{{ container.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no containers.</p>
+    {% endif %}
+{% endblock %}
