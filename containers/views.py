@@ -1,9 +1,7 @@
-from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
 from django.views import generic
 from .models import Container
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from .start_container import spawn_container
 
 

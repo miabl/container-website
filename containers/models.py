@@ -20,13 +20,9 @@ class Container(models.Model):
         return reverse('container-detail', args=[str(self.id)])
 
 
-    def create_container_instance(self, public_ip):
-
-
-
 class ContainerInstance(models.Model):
     # Fields
-    container = models.
+    container = models.ForeignKey('Container', on_delete=models.CASCADE)
     containerARN = models.CharField(max_length=2048)
     public_ip = models.CharField(max_length=15)
     # student = models.ForeignKey('Student', on_delete=models.SET_NULL)
