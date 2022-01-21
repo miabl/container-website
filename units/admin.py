@@ -4,14 +4,14 @@ from .models import Unit, Coordinator, Lecturer, lab_facilitator
 
 @admin.register(Unit)
 class UnitAdmin(admin.ModelAdmin):
-    list_display = ('code', 'title', 'availability', 'coordinator')
+    list_display = ('code', 'title', 'availability', 'coordinator')#, 'teacher')
     list_filter = ('availability', 'coordinator')
     fieldsets = (
         (None, {
             'fields': ('title', 'code')
         }),
         ('Staff', {
-            'fields': ('coordinator', 'lecturer','lab_facilitator')
+            'fields': ('coordinator', 'lecturer','lab_facilitator')#, 'teacher')
         }),
         ('Details', {
             'fields': ('summary', 'availability')
