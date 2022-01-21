@@ -1,17 +1,8 @@
 {% extends "base_generic.html" %}
 
-{#{% block content %}#}
-{#  <h1>Computer Science Labs</h1>#}
-{#  <p>Welcome!</p>#}
-{#  <h2>All your Courses:</h2>#}
-{#  <p>Courses you are enrolled in</p>#}
-{#  <ul>#}
-{#    <li><strong>Units:</strong> {{ all_units }}</li>#}
-{#  </ul>#}
-{#{% endblock %}#}
-
 {% block content %}
   <h1>Computer Science Labs</h1>
+  <p>Units for {{ user.get_username }}</p>
   {% if unit_list %}
   <ul>
     {% for unit in unit_list %}

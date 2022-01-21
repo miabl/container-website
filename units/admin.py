@@ -1,17 +1,18 @@
 from django.contrib import admin
 
-from .models import Unit, Coordinator, Lecturer, lab_facilitator
+from .models import Unit, Coordinator, Lecturer, LabFacilitator
+
 
 @admin.register(Unit)
 class UnitAdmin(admin.ModelAdmin):
-    list_display = ('code', 'title', 'availability', 'coordinator')#, 'teacher')
+    list_display = ('code', 'title', 'availability', 'coordinator')
     list_filter = ('availability', 'coordinator')
     fieldsets = (
         (None, {
             'fields': ('title', 'code')
         }),
         ('Staff', {
-            'fields': ('coordinator', 'lecturer','lab_facilitator')#, 'teacher')
+            'fields': ('coordinator', 'lecturer', 'lab_facilitator')
         }),
         ('Details', {
             'fields': ('summary', 'availability')
@@ -19,18 +20,21 @@ class UnitAdmin(admin.ModelAdmin):
     )
     pass
 
+
 @admin.register(Coordinator)
 class CoordinatorAdmin(admin.ModelAdmin):
-    list_display = ('title','first_name', 'last_name')
+    list_display = ('title', 'first_name', 'last_name')
     fields = [('title', 'first_name'), 'last_name']
     pass
 
+
 @admin.register(Lecturer)
 class LecturerAdmin(admin.ModelAdmin):
-    list_display = ('title','first_name', 'last_name')
+    list_display = ('title', 'first_name', 'last_name')
     pass
 
-@admin.register(lab_facilitator)
-class lab_facilitatorAdmin(admin.ModelAdmin):
-    list_display = ('title','first_name', 'last_name')
+
+@admin.register(LabFacilitator)
+class LabFacilitatorAdmin(admin.ModelAdmin):
+    list_display = ('title', 'first_name', 'last_name')
     pass
