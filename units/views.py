@@ -18,9 +18,9 @@ class IndexView(LoginRequiredMixin, generic.ListView):
     model = Unit
     template_name = 'index.html'
 
-# class UnitDetailView(generic.DetailView):
-#     model = Unit
-#     template_name = 'units/unit_detail.html'
+class UnitDetailView(generic.DetailView):
+    model = Unit
+    template_name = 'units/unit_detail.html'
 
 #class UnitList(LoginRequiredMixin, generic.ListView):
 #     login_url = '/login/'

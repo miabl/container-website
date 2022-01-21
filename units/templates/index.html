@@ -16,8 +16,7 @@
   <ul>
     {% for unit in unit_list %}
       <li>
-{#        <a href="{{ unit.get_absolute_url }}">{{ unit.title }}</a> ({{unit.code}})#}
-        {{ unit.title }}</a> ({{unit.code}})
+        <a href="{{ unit.get_absolute_url }}">{{ unit.title }}</a> ({{unit.code}})
       </li>
     {% endfor %}
   </ul>
