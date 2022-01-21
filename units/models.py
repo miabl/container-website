@@ -53,7 +53,7 @@ class Unit(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this unit."""
-        return reverse('unit-detail', args=[str(self.id)])
+        return reverse('unit-detail', args=[str(self.code)])
 
 class Coordinator(models.Model):
     """Model representing a coordinator"""
