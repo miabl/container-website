@@ -15,7 +15,7 @@ class UnitAdmin(admin.ModelAdmin):
             'fields': ('coordinator', 'lecturer', 'lab_facilitator')
         }),
         ('Details', {
-            'fields': ('summary', 'availability')
+            'fields': ('summary', 'availability', 'containers')
         }),
     )
     pass

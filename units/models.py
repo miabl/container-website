@@ -1,6 +1,7 @@
 from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
 from django.db import models
 from django.contrib.auth.models import User
+from containers.models import Container
 
 
 class Unit(models.Model):
@@ -21,6 +22,8 @@ class Unit(models.Model):
 
     # Description of unit
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the unit')
+
+    containers = models.ManyToManyField(Container)
 
     OFFERING = (
         ('s1', 'semester 1'),

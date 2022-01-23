@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .models import Unit
 
-# from containers.models import Container
+from containers.models import Container
 # from django.contrib.auth.models import User
 from students.models import Student
 
