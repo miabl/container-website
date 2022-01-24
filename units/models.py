@@ -2,6 +2,8 @@ from django.urls import reverse  # Used to generate URLs by reversing the URL pa
 from django.db import models
 from django.contrib.auth.models import User
 from containers.models import Container
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import AbstractUser
 
 
 class Unit(models.Model):
@@ -60,6 +62,8 @@ class Unit(models.Model):
 
 
 class Coordinator(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+
     """Model representing a coordinator"""
     title = models.CharField(max_length=10, default='Dr.', help_text='E.g. Dr. Prof. Mr.')
     first_name = models.CharField(max_length=20)

@@ -2,16 +2,17 @@
 
 {% block content %}
     <h1>Computer Science Labs</h1>
-    <p>Units for {{ user.get_username }}</p>
+    <p>All Units</p>
     {% if unit_list %}
         <ul>
             {% for unit in unit_list %}
                 <li>
                     <a href="{{ unit.get_absolute_url }}">{{ unit.title }}</a> ({{ unit.code }})
+                    <a href="{% url 'update_summary' unit.code %}">Update Summary</a>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>You have no enrolled units</p>
+        <p>No Units</p>
     {% endif %}
 {% endblock %}

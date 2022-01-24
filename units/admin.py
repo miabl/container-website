@@ -24,7 +24,7 @@ class UnitAdmin(admin.ModelAdmin):
 @admin.register(Coordinator)
 class CoordinatorAdmin(admin.ModelAdmin):
     list_display = ('title', 'first_name', 'last_name')
-    fields = [('title', 'first_name'), 'last_name']
+    fields = ['user', ('title', 'first_name'), 'last_name']
     pass
 
 
