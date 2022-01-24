@@ -8,7 +8,7 @@ from students.models import Student
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
-    login_url = '/login/'
+    login_url = 'accounts/login/'
     model = Unit
     template_name = 'index.html'
 
@@ -19,7 +19,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 
 
 class UnitDetailView(LoginRequiredMixin, generic.DetailView):
-    login_url = '/login/'
+    login_url = 'accounts/login/'
     model = Unit
     template_name = 'units/unit_detail.html'
 
