@@ -1,33 +1,33 @@
-# from django.core.exceptions import ValidationError
-# from django.utils.translation import ugettext_lazy as _
-#
-#
-# class EditUnit(forms.Form):
-#     change_title = forms.CharField(help_text="Change Unit Title")
-#     change_summary = forms.CharField(help_text="Change Summary")
-#     change_offering = forms.CharField(help_text="Change Offering")
-#
-#     def clean_change_title(self):
-#         data = self.cleaned_data['change_title']
-#         return data
-#
-#
-# class ChangeStaff(forms.Form):
-#     change_coordinator = forms.CharField(help_text="Change Coordinator")
-#     change_lecturer = forms.CharField(help_text="Change Lecturer")
-#     change_lab_facilitator = forms.CharField(help_text="Change Facilitator")
-#
-#     def clean_renewal_date(self):
-#         data = self.cleaned_data['renewal_date']
-#         return data
+from django.forms import ModelForm
 
-from django import forms
+from units.models import Unit
+
+from django.utils.translation import gettext_lazy as _
 
 
-class EditUnitForm(forms.Form):
-    change_summary = forms.CharField(help_text="Change Summary")
+class EditUnitForm(ModelForm):
+    class Meta:
+        model = Unit
+        fields = ['title', 'summary', 'availability']
+        labels = {'title': _('Unit Title'), 'summary': _('Unit Description'),
+                  'availability': _('Unit Availability')}
+        help_texts = {'title': _('Change the title of the unit'),
+                      'summary': _('Enter a brief description of the unit'),
+                      'availability': _('Change the unit availability')}
 
-    def clean_summary(self):
-        data = self.cleaned_data['change_summary']
 
-        return data
+class EditTeachersForm(ModelForm):
+    class Meta:
+        model = Unit
+        fields = ['coordinator', 'lecturer', 'lab_facilitator']
+        labels = {'coordinator': _('Unit Coordinator'), 'lecturer': _('Lecturer'),
+                  'lab_facilitator': _('Lab Facilitator')}
+        help_texts = {'coordinator': _('Change the Units Coordinator'), 'lecturer': _('Change the Units Lecturer'),
+                      'lab_facilitator': _('Change the units lab facilitators')}
+
+
+class AddUnit(ModelForm):
+    class Meta:
+        model = Unit
+        fields = '__all__'
+        initial = '__all__'
