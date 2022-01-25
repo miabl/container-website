@@ -9,6 +9,8 @@
         {% endfor %}
     {% endif %}
     <h1>{{ containerinstance.container.name }}</h1>
+    <p><strong>Description: </strong> {{ containerinstance.container.description }}</p>
+    <p><strong>Instructions:</strong> {{ containerinstance.container.instructions }}</p>
     <p><strong>IP Address: </strong>{{ containerinstance.public_ip }}</p>
 
 {% endblock %}

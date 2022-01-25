@@ -7,7 +7,6 @@ from django.views.generic import ListView, DetailView, TemplateView
 from students.models import Student
 from .models import Container, ContainerInstance
 from django.http import HttpResponseRedirect
-from .start_container import spawn_container
 
 
 class ContainerList(LoginRequiredMixin, ListView):
@@ -30,18 +29,21 @@ class ContainerInstanceDetail(LoginRequiredMixin, DetailView):
 
 
 class StartContainer(View):
-    @staticmethod
-    def post(request, container_pk):
+    def post(self, request, container_pk):
         student = Student.objects.get(user=request.user)
         if student.running_container:
             messages.error(request, 'You already have a container running. Please stop it before starting a new one.')
             return HttpResponseRedirect(reverse('container-instance-detail', kwargs={'pk':
                                                                                          student.running_container_id}))
         else:
-            arn, ip = spawn_container()
-            if ip:
-                instance = ContainerInstance(container=Container.objects.get(pk=container_pk), public_ip=ip,
-                                             containerARN=arn)
+            instance = ContainerInstance(container=Container.objects.get(pk=container_pk))
+            instance.containerARN = instance.start_task()
+
+            if instance.start_instance():
+                print("getting ip")
+                instance.public_ip = instance.get_ip()
+                print(instance.public_ip)
+                print("got ip, saving...")
                 instance.save()
 
                 student = Student.objects.get(user=request.user)
