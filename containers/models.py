@@ -26,3 +26,7 @@ class ContainerInstance(models.Model):
     container = models.ForeignKey('Container', on_delete=models.CASCADE)
     containerARN = models.CharField(max_length=2048)
     public_ip = models.CharField(max_length=15)
+
+    def get_absolute_url(self):
+        """ Returns the url to access a detail record of the container instance """
+        return reverse('container-instance-detail', args=[str(self.id)])
