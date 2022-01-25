@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import View
@@ -31,21 +32,26 @@ class ContainerInstanceDetail(LoginRequiredMixin, DetailView):
 class StartContainer(View):
     @staticmethod
     def post(request, container_pk):
-        arn, ip = spawn_container()
-        print('success!')
-        if ip:
-            instance = ContainerInstance(container=Container.objects.get(pk=container_pk), public_ip=ip,
-                                         containerARN=arn)
-            instance.save()
-
-            student = Student.objects.get(user=request.user)
-            student.running_container = instance
-            student.save()
-
-            return HttpResponseRedirect(reverse('container-instance-detail', kwargs={'pk': instance.pk}))
-
+        student = Student.objects.get(user=request.user)
+        if student.running_container:
+            messages.error(request, 'You already have a container running. Please stop it before starting a new one.')
+            return HttpResponseRedirect(reverse('container-instance-detail', kwargs={'pk':
+                                                                                         student.running_container_id}))
         else:
-            return HttpResponseRedirect(reverse('failure'))
+            arn, ip = spawn_container()
+            if ip:
+                instance = ContainerInstance(container=Container.objects.get(pk=container_pk), public_ip=ip,
+                                             containerARN=arn)
+                instance.save()
+
+                student = Student.objects.get(user=request.user)
+                student.running_container = instance
+                student.save()
+
+                return HttpResponseRedirect(reverse('container-instance-detail', kwargs={'pk': instance.pk}))
+
+            else:
+                return HttpResponseRedirect(reverse('failure'))
 
 
 class FailedContainer(TemplateView):

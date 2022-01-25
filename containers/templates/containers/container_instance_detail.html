@@ -1,7 +1,14 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <p>{{ containerinstance.container.name }}</p>
+    {% if messages %}
+        {% for message in messages %}
+            <div>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h1>{{ containerinstance.container.name }}</h1>
     <p><strong>IP Address: </strong>{{ containerinstance.public_ip }}</p>
 
 {% endblock %}
