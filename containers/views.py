@@ -2,6 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, TemplateView
+
+from students.models import Student
 from .models import Container, ContainerInstance
 from django.http import HttpResponseRedirect
 from .start_container import spawn_container
@@ -35,10 +37,13 @@ class StartContainer(View):
             instance = ContainerInstance(container=Container.objects.get(pk=container_pk), public_ip=ip,
                                          containerARN=arn)
             instance.save()
+
+            student = Student.objects.get(user=request.user)
+            student.running_container = instance
+            student.save()
+
             return HttpResponseRedirect(reverse('container-instance-detail', kwargs={'pk': instance.pk}))
 
-            # html = f"<html><body>IP: {ip}<br>{container_pk}</body></html>"
-            # return HttpResponse(html)
         else:
             return HttpResponseRedirect(reverse('failure'))
 
