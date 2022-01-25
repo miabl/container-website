@@ -13,3 +13,14 @@ urlpatterns += [
 urlpatterns += [
     path('teaching/', views.AllUnits.as_view(), name='teaching'),
 ]
+
+urlpatterns += [
+    path('addunit/', views.UnitCreate.as_view(), name='add-unit'),
+]
+
+urlpatterns += [
+    path('unit/<pk>/update2/', views.edit_teachers, name='update_teachers'),
+]
+urlpatterns += [
+    path('unit/<pk>/deleteunit/', views.UnitDelete.as_view(), name='delete-unit'),
+]

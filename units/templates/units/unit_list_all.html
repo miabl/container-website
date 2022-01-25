@@ -8,11 +8,14 @@
             {% for unit in unit_list %}
                 <li>
                     <a href="{{ unit.get_absolute_url }}">{{ unit.title }}</a> ({{ unit.code }})
-                    <a href="{% url 'update_summary' unit.code %}">Update Summary</a>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No Units</p>
+    {% endif %}
+    {% if perms.units.can_update_unit %}
+        <h2>Add a Unit</h2>
+        <p><a href="{% url 'add-unit' %}">Add Unit</a></p>
     {% endif %}
 {% endblock %}

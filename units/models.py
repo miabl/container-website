@@ -49,8 +49,8 @@ class Unit(models.Model):
 
     class Meta:
         ordering = ['code']
-        permissions = (("can_edit_unit", "Edit Unit"), ("can_edit_lecturer", "Change lecturer"),
-                       ("can_edit_facilitator", "Change lab facilitator"))
+        permissions = (("can_update_unit", "Can Update Unit"), ("can_update_teachers", "Can Update Teachers"),
+                       ("can_view_all", "Can View All Units"),)
 
     def __str__(self):
         """String for representing the Model object."""
@@ -65,53 +65,30 @@ class Coordinator(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
 
     """Model representing a coordinator"""
-    title = models.CharField(max_length=10, default='Dr.', help_text='E.g. Dr. Prof. Mr.')
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-
-    class Meta:
-        ordering = ['last_name', 'first_name']
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular coordinator instance."""
-        return reverse('coordinator-detail', args=[str(self.id)])
+    title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.last_name}, {self.first_name}'
+        return f'{self.title} ({self.user.first_name} {self.user.last_name})'
 
 
 class Lecturer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+
     """Model representing a coordinator"""
-    title = models.CharField(max_length=10, default='Dr.', help_text='E.g. Dr. Prof. Mr.')
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-
-    class Meta:
-        ordering = ['last_name', 'first_name']
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular coordinator instance."""
-        return reverse('lecturer-detail', args=[str(self.id)])
+    title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.last_name}, {self.first_name}'
+        return f'{self.title} ({self.user.first_name} {self.user.last_name})'
 
 
 class LabFacilitator(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+
     """Model representing a coordinator"""
-    title = models.CharField(max_length=10, default='Dr.', help_text='E.g. Dr. Prof. Mr.')
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-
-    class Meta:
-        ordering = ['last_name', 'first_name']
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular coordinator instance."""
-        return reverse('lab_facilitator-detail', args=[str(self.id)])
+    title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.last_name}, {self.first_name}'
+        return f'{self.title} ({self.user.first_name} {self.user.last_name})'
