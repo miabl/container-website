@@ -40,10 +40,8 @@ class StartContainer(View):
             instance.containerARN = instance.start_task()
 
             if instance.start_instance():
-                print("getting ip")
                 instance.public_ip = instance.get_ip()
                 print(instance.public_ip)
-                print("got ip, saving...")
                 instance.save()
 
                 student = Student.objects.get(user=request.user)
@@ -54,6 +52,17 @@ class StartContainer(View):
 
             else:
                 return HttpResponseRedirect(reverse('failure'))
+
+
+class StopContainer(View):
+    def post(self, request, instance_pk):
+        student = Student.objects.get(user=request.user)
+        if student.running_container.pk == instance_pk:
+            student.running_container.stop_instance()
+            student.running_container = None
+            student.save()
+            messages.success(request, "Container successfully stopped")
+        return HttpResponseRedirect(reverse('index'))
 
 
 class FailedContainer(TemplateView):
