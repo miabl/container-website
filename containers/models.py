@@ -20,12 +20,6 @@ class Container(models.Model):
         """ Returns the url to access a detail record for this container."""
         return reverse('container-detail', args=[str(self.id)])
 
-    def create_instance(self):
-        arn, ip = spawn_container()
-        container_instance = ContainerInstance(container=self, containerARN=arn, public_ip=ip)
-        container_instance.save()
-        return reverse('container_instance_detail', kwargs={'pk': container_instance.pk})
-
 
 class ContainerInstance(models.Model):
     """ A class containing information about one instance of a container"""
