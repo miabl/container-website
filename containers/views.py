@@ -58,10 +58,15 @@ class StopContainer(View):
     def post(self, request, instance_pk):
         student = Student.objects.get(user=request.user)
         if student.running_container.pk == instance_pk:
-            student.running_container.stop_instance()
-            student.running_container = None
-            student.save()
-            messages.success(request, "Container successfully stopped")
+            stopped = student.running_container.stop_instance()
+            if stopped:
+                student.running_container = None
+                student.save()
+                messages.success(request, "Container successfully stopped")
+            else:
+                messages.error(request, "Error stopping container, please try again")
+        else:
+            messages.error(request, "Container id does not match your account id, please contact your coordinator")
         return HttpResponseRedirect(reverse('index'))
 
 

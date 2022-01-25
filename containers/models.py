@@ -60,6 +60,7 @@ class ContainerInstance(models.Model):
             cluster=self.container.cluster,
             task=self.containerARN,
         )
+        return stop_response
 
     def start_task(self):
         fg = boto3.client("ecs")
