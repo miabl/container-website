@@ -51,7 +51,6 @@ def edit_unit(request, pk):
         if form.is_valid():
             unit.summary = form.cleaned_data['summary']
             unit.title = form.cleaned_data['title']
-            unit.code = form.cleaned_data['code']
             unit.availability = form.cleaned_data['availability']
             unit.save()
 
@@ -60,9 +59,8 @@ def edit_unit(request, pk):
         proposed_summary = ""
         proposed_title = ""
         proposed_availability = 'ns'
-        proposed_code = ""
         form = EditUnitForm(
-            initial={'title': proposed_title, 'code': proposed_code, 'summary': proposed_summary,
+            initial={'title': proposed_title, 'summary': proposed_summary,
                      'availability': proposed_availability, }
         )
 

@@ -8,10 +8,10 @@ from django.utils.translation import gettext_lazy as _
 class EditUnitForm(ModelForm):
     class Meta:
         model = Unit
-        fields = ['title', 'code', 'summary', 'availability']
-        labels = {'title': _('Unit Title'), 'code': _('Unit Code'), 'summary': _('Unit Description'),
+        fields = ['title', 'summary', 'availability']
+        labels = {'title': _('Unit Title'), 'summary': _('Unit Description'),
                   'availability': _('Unit Availability')}
-        help_texts = {'title': _('Change the title of the unit'), 'code': _('Change Unit Code'),
+        help_texts = {'title': _('Change the title of the unit'),
                       'summary': _('Enter a brief description of the unit'),
                       'availability': _('Change the unit availability')}
 
