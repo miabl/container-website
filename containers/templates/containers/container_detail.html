@@ -5,7 +5,7 @@
     <p><strong>Description: </strong>{{ container.description }}</p>
     <p><strong>Instructions: </strong>{{ container.instructions }}</p>
 
-    <form method="post" action="{% url 'start-container' %}">
+    <form method="post" action="{% url 'start-container' container_pk=container.pk %}">
         {% csrf_token %}
         <button>start container</button>
     </form>

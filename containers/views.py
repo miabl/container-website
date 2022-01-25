@@ -1,30 +1,47 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
-from .models import Container
-from django.http import HttpResponse
+from django.urls import reverse
+from django.views import View
+from django.views.generic import ListView, DetailView, TemplateView
+from .models import Container, ContainerInstance
+from django.http import HttpResponseRedirect
 from .start_container import spawn_container
 
 
-class ContainerList(LoginRequiredMixin, generic.ListView):
-    login_url = '/login/'
+class ContainerList(LoginRequiredMixin, ListView):
+    login_url = 'accounts/login/'
     model = Container
     context_object_name = 'container_list'
     template_name = 'containers/container_list.html'
 
 
-class ContainerDetail(LoginRequiredMixin, generic.DetailView):
-    login_url = '/login/'
+class ContainerDetail(LoginRequiredMixin, DetailView):
+    login_url = 'accounts/login/'
     model = Container
     template_name = 'containers/container_detail.html'
 
 
-def startContainer(request):
-    public_ip = None
-    if request.method == 'POST':
-        public_ip = spawn_container()
+class ContainerInstanceDetail(LoginRequiredMixin, DetailView):
+    login_url = 'accounts/login'
+    model = ContainerInstance
+    template_name = 'containers/container_instance_detail.html'
+
+
+class StartContainer(View):
+    @staticmethod
+    def post(request, container_pk):
+        arn, ip = spawn_container()
         print('success!')
-    if public_ip:
-        html = f"<html><body>IP: {public_ip}</body></html>"
-    else:
-        html = "<html><body>Failure!</body></html>"
-    return HttpResponse(html)
+        if ip:
+            instance = ContainerInstance(container=Container.objects.get(pk=container_pk), public_ip=ip,
+                                         containerARN=arn)
+            instance.save()
+            return HttpResponseRedirect(reverse('container-instance-detail', kwargs={'pk': instance.pk}))
+
+            # html = f"<html><body>IP: {ip}<br>{container_pk}</body></html>"
+            # return HttpResponse(html)
+        else:
+            return HttpResponseRedirect(reverse('failure'))
+
+
+class FailedContainer(TemplateView):
+    template_name = 'containers/failure.html'

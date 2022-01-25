@@ -1,0 +1,7 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <p>{{ containerinstance.container.name }}</p>
+    <p><strong>IP Address: </strong>{{ containerinstance.public_ip }}</p>
+
+{% endblock %}
