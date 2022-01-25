@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from .start_container import spawn_container
 
 
 class Container(models.Model):
@@ -19,10 +20,15 @@ class Container(models.Model):
         """ Returns the url to access a detail record for this container."""
         return reverse('container-detail', args=[str(self.id)])
 
+    def create_instance(self):
+        arn, ip = spawn_container()
+        container_instance = ContainerInstance(container=self, containerARN=arn, public_ip=ip)
+        container_instance.save()
+        return reverse('container_instance_detail', kwargs={'pk': container_instance.pk})
+
 
 class ContainerInstance(models.Model):
-    # Fields
+    """ A class containing information about one instance of a container"""
     container = models.ForeignKey('Container', on_delete=models.CASCADE)
     containerARN = models.CharField(max_length=2048)
     public_ip = models.CharField(max_length=15)
-    # student = models.ForeignKey('Student', on_delete=models.SET_NULL)

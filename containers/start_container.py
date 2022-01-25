@@ -64,7 +64,7 @@ def spawn_container():
             task_info.get("tasks")[0].get("attachments")[0].get("details")[1].get("value")
         )
         eni = boto3.resource("ec2").NetworkInterface(eni_id)
-        return eni.association_attribute["PublicIp"]
+        return task_id, eni.association_attribute["PublicIp"]
 
     # print("stopping container...")
 
