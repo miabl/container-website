@@ -107,7 +107,7 @@ def edit_teachers(request, pk):
 
 
 class AllUnits(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
-    login_url = 'login/'
+    login_url = 'accounts/login/'
     model = Unit
     permission_required = 'units.can_view_all'
     template_name = 'units/unit_list_all.html'
