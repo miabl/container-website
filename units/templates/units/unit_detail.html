@@ -28,9 +28,9 @@
             <p><strong>Description: </strong>{{ cont.description }}</p>
             <p><strong>Instructions: </strong>{{ cont.instructions }}</p>
         {% endfor %}
-        {#        {% if perms.units.can_update_unit %}#}
-        {#            <p><a href="{% url 'change-containers' unit.code %}">Change Containers</a></p>#}
-        {#        {% endif %}#}
+        {% if perms.units.can_update_unit %}
+            <p><a href="{% url 'change-containers' unit.code %}">Change Containers</a></p>
+        {% endif %}
     </div>
 
     {% if perms.units.can_update_unit %}

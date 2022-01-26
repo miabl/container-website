@@ -6,7 +6,8 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from units.forms import EditUnitForm, EditTeachersForm, EditTitleForm, EditAvailabilityForm  # , EditContainersForm
+from units.forms import EditUnitForm, EditTeachersForm, EditTitleForm, EditAvailabilityForm, EditContainersForm
+
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -153,32 +154,31 @@ def edit_availability(request, pk):
     return render(request, 'units/update_availability.html', context)
 
 
-#
-# @login_required
-# @permission_required('units.can_update_unit', raise_exception=True)
-# def change_containers(request, pk):
-#     unit = get_object_or_404(Unit, pk=pk)
-#     # If this is a POST request then process the Form data
-#     if request.method == 'POST':
-#         form = EditContainersForm(request.POST)
-#
-#         if form.is_valid():
-#             unit.availability = form.cleaned_data['containers']
-#             unit.save()
-#
-#             return HttpResponseRedirect(reverse('teaching'))
-#     else:
-#         proposed_containers = ''
-#         form = EditContainersForm(
-#             initial={'containers': proposed_containers, }
-#         )
-#
-#     context = {
-#         'form': form,
-#         'unit': unit,
-#     }
-#
-#     return render(request, 'units/update_containers.html', context)
+@login_required
+@permission_required('units.can_update_unit', raise_exception=True)
+def change_containers(request, pk):
+    unit = get_object_or_404(Unit, pk=pk)
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+        form = EditContainersForm(request.POST)
+
+        if form.is_valid():
+            unit.containers.set(form.cleaned_data['containers'])
+            unit.save()
+
+            return HttpResponseRedirect(reverse('teaching'))
+    else:
+        proposed_containers = ''
+        form = EditContainersForm(
+            initial={'containers': proposed_containers, }
+        )
+
+    context = {
+        'form': form,
+        'unit': unit,
+    }
+
+    return render(request, 'units/update_containers.html', context)
 
 
 class AllUnits(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):

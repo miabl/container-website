@@ -29,12 +29,12 @@ class EditTitleForm(ModelForm):
         help_texts = {'title': _('Change the title of the unit')}
 
 
-# class EditContainersForm(ModelForm):
-#     class Meta:
-#         model = Unit
-#         fields = ['containers']
-#         labels = {'containers': _('Unit Containers')}
-#         help_texts = {'containers': _('Change the containers listed')}
+class EditContainersForm(ModelForm):
+    class Meta:
+        model = Unit
+        fields = ['containers']
+        labels = {'containers': _('Unit Containers')}
+        help_texts = {'containers': _('Change the containers listed')}
 
 
 class EditTeachersForm(ModelForm):

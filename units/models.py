@@ -18,14 +18,14 @@ class Unit(models.Model):
     # Foreign key - unit has only one coordinator but coordinator can have many units
     coordinator = models.ForeignKey('Coordinator', on_delete=models.SET_NULL, null=True)
     # Lecturer can have many units & units can have many lecturers
-    lecturer = models.ManyToManyField('Lecturer')
+    lecturer = models.ManyToManyField('Lecturer', blank=True)
     # Can have many facilitators & facilitators can have many units
-    lab_facilitator = models.ManyToManyField('LabFacilitator')
+    lab_facilitator = models.ManyToManyField('LabFacilitator', blank=True)
 
     # Description of unit
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the unit')
 
-    containers = models.ManyToManyField(Container)
+    containers = models.ManyToManyField(Container, blank=True)
 
     OFFERING = (
         ('s1', 'semester 1'),
