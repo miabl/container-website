@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Unit, Coordinator, Lecturer, LabFacilitator
+from .models import Unit
 
 
 @admin.register(Unit)
@@ -18,23 +18,4 @@ class UnitAdmin(admin.ModelAdmin):
             'fields': ('summary', 'availability', 'containers')
         }),
     )
-    pass
-
-
-@admin.register(Coordinator)
-class CoordinatorAdmin(admin.ModelAdmin):
-    list_display = ('title', 'first_name', 'last_name')
-    fields = ['user', ('title', 'first_name'), 'last_name']
-    pass
-
-
-@admin.register(Lecturer)
-class LecturerAdmin(admin.ModelAdmin):
-    list_display = ('title', 'first_name', 'last_name')
-    pass
-
-
-@admin.register(LabFacilitator)
-class LabFacilitatorAdmin(admin.ModelAdmin):
-    list_display = ('title', 'first_name', 'last_name')
     pass

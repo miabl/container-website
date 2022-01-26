@@ -3,9 +3,17 @@
 {% block content %}
     <h1>{{ unit.code }} {{ unit.title }}</h1>
 
-    <p>Unit Coordinator: {{ unit.coordinator.first_name }} {{ unit.coordinator.last_name }}</p>
+    <p>Unit Coordinator: {{ unit.coordinator.user.first_name }} {{ unit.coordinator.user.last_name }}
+        {% if perms.units.can_update_teachers %}
+            <a href="{% url 'update_teachers' unit.code %}">Change Teachers</a>
+        {% endif %}
+    </p>
     <p><strong>Welcome to the unit: </strong>{{ unit.code }}</p>
+    <p><strong>Availability</strong>: {{ unit.availability }}</p>
     <p>{{ unit.summary }}</p>
+    {% if perms.units.can_update_unit %}
+        <p><a href="{% url 'update_summary' unit.code %}">Update Summary</a></p>
+    {% endif %}
     <h2>Lab Containers:</h2>
     <div style="margin-left:20px;margin-top:20px">
         {% for cont in unit.containers.all %}
@@ -15,5 +23,7 @@
         {% endfor %}
     </div>
 
+    {% if perms.units.can_update_unit %}
+        <p><a href="{% url 'delete-unit' unit.code %}">Delete Unit</a></p>
+    {% endif %}
 {% endblock %}
-
