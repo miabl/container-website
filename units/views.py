@@ -189,16 +189,19 @@ class AllUnits(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     paginate_by = 10
 
 
-class UnitCreate(CreateView):
+class UnitCreate(PermissionRequiredMixin, CreateView):
     model = Unit
+    permission_required = 'units.can_update_unit'
     fields = '__all__'
 
 
-class UnitUpdate(UpdateView):
+class UnitUpdate(PermissionRequiredMixin, UpdateView):
     model = Unit
+    permission_required = 'units.can_update_unit'
     fields = '__all__'
 
 
-class UnitDelete(DeleteView):
+class UnitDelete(PermissionRequiredMixin, DeleteView):
     model = Unit
+    permission_required = 'units.can_update_unit'
     success_url = reverse_lazy('teaching')
