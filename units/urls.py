@@ -24,3 +24,19 @@ urlpatterns += [
 urlpatterns += [
     path('unit/<pk>/deleteunit/', views.UnitDelete.as_view(), name='delete-unit'),
 ]
+
+urlpatterns += [
+    path('unit/<pk>/updateunit/', views.UnitUpdate.as_view(), name='update-unit'),
+]
+
+urlpatterns += [
+    path('unit/<pk>/updatetitle/', views.edit_title, name='update-title'),
+]
+
+urlpatterns += [
+    path('unit/<pk>/updateavailability/', views.edit_availability, name='update-availability'),
+]
+#
+# urlpatterns += [
+#     path('unit/<pk>/changecontainers/', views.change_containers, name='change-containers'),
+# ]

@@ -3,6 +3,10 @@
 {% block content %}
     <h1>{{ unit.code }} {{ unit.title }}</h1>
 
+    {% if perms.units.can_update_unit %}
+        <p><a href="{% url 'update-title' unit.code %}">Update Title</a></p>
+    {% endif %}
+
     <p>Unit Coordinator: {{ unit.coordinator.user.first_name }} {{ unit.coordinator.user.last_name }}
         {% if perms.units.can_update_teachers %}
             <a href="{% url 'update_teachers' unit.code %}">Change Teachers</a>
@@ -10,6 +14,9 @@
     </p>
     <p><strong>Welcome to the unit: </strong>{{ unit.code }}</p>
     <p><strong>Availability</strong>: {{ unit.availability }}</p>
+    {% if perms.units.can_update_unit %}
+        <p><a href="{% url 'update-availability' unit.code %}">Update Availability</a></p>
+    {% endif %}
     <p>{{ unit.summary }}</p>
     {% if perms.units.can_update_unit %}
         <p><a href="{% url 'update_summary' unit.code %}">Update Summary</a></p>
@@ -21,9 +28,13 @@
             <p><strong>Description: </strong>{{ cont.description }}</p>
             <p><strong>Instructions: </strong>{{ cont.instructions }}</p>
         {% endfor %}
+        {#        {% if perms.units.can_update_unit %}#}
+        {#            <p><a href="{% url 'change-containers' unit.code %}">Change Containers</a></p>#}
+        {#        {% endif %}#}
     </div>
 
     {% if perms.units.can_update_unit %}
         <p><a href="{% url 'delete-unit' unit.code %}">Delete Unit</a></p>
+        <p><a href="{% url 'update-unit' unit.code %}">Update Unit</a></p>
     {% endif %}
 {% endblock %}
