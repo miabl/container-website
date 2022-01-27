@@ -52,8 +52,14 @@
                             Log Out</a>
                     </div>
                 </li>
-                >>>>>>> main
             </ul>
+            {% if perms.units.can_view_all %}
+                <hr/>
+                <ul class="sidebar-nav">
+                    <p><strong>Teacher</strong></p>
+                    <li><a href="{% url 'teaching' %}">All Units</a></li>
+                </ul>
+            {% endif %}
         {% else %}
             <form class="form-inline ml-auto">
                 <a href="{% url 'login' %}" class="btn btn-outline-secondary">
