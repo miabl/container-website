@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from units.forms import EditUnitForm, EditTeachersForm, EditTitleForm, EditAvailabilityForm, EditContainersForm
+# from units.form import EnrolStudentForm, DeEnrolStudentForm
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
@@ -39,6 +40,12 @@ class UnitDetailView(LoginRequiredMixin, generic.DetailView):
     login_url = 'accounts/login/'
     model = Unit
     template_name = 'units/unit_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        u = self.get_object()
+        context['students'] = Student.objects.filter(units__code=u.code)
+        return context
 
 
 @login_required
@@ -205,3 +212,31 @@ class UnitDelete(PermissionRequiredMixin, DeleteView):
     model = Unit
     permission_required = 'units.can_update_unit'
     success_url = reverse_lazy('teaching')
+
+#
+# @login_required
+# @permission_required('units.can_update_unit', raise_exception=True)
+# def de_enrol_student(request, id):
+#     student = get_object_or_404(Student, id=id)
+#     # If this is a POST request then process the Form data
+#     if request.method == 'POST':
+#         form = DeEnrolStudentForm(request.POST)
+#
+#         if form.is_valid():
+#             data = form.cleaned_data['units']
+#             student.units.remove(data)
+#
+#             student.save()
+#
+#             return HttpResponseRedirect(reverse('index'))
+#     else:
+#         proposed_units = ''
+#         form = DeEnrolStudentForm(
+#             initial={'units': proposed_units, }
+#         )
+#
+#     context = {
+#         'form': form,
+#         'student': student,
+#     }
+#

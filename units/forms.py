@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 
 from units.models import Unit
+from students.models import Student
 
 from django.utils.translation import gettext_lazy as _
 
@@ -52,3 +53,11 @@ class AddUnit(ModelForm):
         model = Unit
         fields = '__all__'
         initial = '__all__'
+
+#
+# class EnrolStudent(ModelForm):
+#     class Meta:
+#         model = Student
+#         fields = ['units']
+#         labels = {'units': _('Units')}
+#         help_texts = {'units': _('Change Enrolled Units')}

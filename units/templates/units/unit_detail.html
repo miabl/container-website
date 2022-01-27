@@ -37,4 +37,11 @@
         <p><a href="{% url 'delete-unit' unit.code %}">Delete Unit</a></p>
         <p><a href="{% url 'update-unit' unit.code %}">Update Unit</a></p>
     {% endif %}
+
+    <p><strong>Enrolled Students</strong>:</p>
+
+    {% for student in students %}
+        <p>{{ student.user.first_name }} {{ student.user.last_name }}</p>
+    {% endfor %}
+
 {% endblock %}

@@ -36,7 +36,11 @@ urlpatterns += [
 urlpatterns += [
     path('unit/<pk>/updateavailability/', views.edit_availability, name='update-availability'),
 ]
-#
+
 urlpatterns += [
     path('unit/<pk>/changecontainers/', views.change_containers, name='change-containers'),
 ]
+#
+# urlpatterns += [
+#     path('unit/<pk>/editenrolment/', views.edit_enrolment, name='edit-enrolment'),
+# ]
