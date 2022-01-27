@@ -1,8 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Computer Science Labs</h1>
-    <p>Units for {{ user.get_username }}</p>
+    <h2>Welcome to {{ user.get_username|title }}'s Units</h2>
+    <p>Below are the unit(s) you are enrolled in for this semester.</p>
     {% if unit_list %}
         <ul>
             {% for unit in unit_list %}
@@ -12,9 +12,9 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>You have no enrolled units</p>
+        <p>You have no enrolled units. Click here to register for units.</p>
     {% endif %}
     <p>
-    {% load static %} <img src="{% static "media/hacker_cat.jpg" %}" width="1000" alt="home" />
+    {% load static %} <img src="{% static "media/hacker_cat.jpg" %}" width="1000" alt="cat" />
     </p>
 {% endblock %}
