@@ -18,14 +18,14 @@ class Unit(models.Model):
     # Foreign key - unit has only one coordinator but coordinator can have many units
     coordinator = models.ForeignKey('Coordinator', on_delete=models.SET_NULL, null=True)
     # Lecturer can have many units & units can have many lecturers
-    lecturer = models.ManyToManyField('Lecturer')
+    lecturer = models.ManyToManyField('Lecturer', blank=True)
     # Can have many facilitators & facilitators can have many units
-    lab_facilitator = models.ManyToManyField('LabFacilitator')
+    lab_facilitator = models.ManyToManyField('LabFacilitator', blank=True)
 
     # Description of unit
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the unit')
 
-    containers = models.ManyToManyField(Container)
+    containers = models.ManyToManyField(Container, blank=True)
 
     OFFERING = (
         ('s1', 'semester 1'),
@@ -62,7 +62,7 @@ class Unit(models.Model):
 
 
 class Coordinator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="", unique=True)
 
     """Model representing a coordinator"""
     title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')
@@ -73,7 +73,7 @@ class Coordinator(models.Model):
 
 
 class Lecturer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="", unique=True)
 
     """Model representing a coordinator"""
     title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')
@@ -84,7 +84,7 @@ class Lecturer(models.Model):
 
 
 class LabFacilitator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="", unique=True)
 
     """Model representing a coordinator"""
     title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')

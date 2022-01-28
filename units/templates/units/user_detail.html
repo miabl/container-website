@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>
+        {% if coordinator %}
+            {% for c in coordinator %}
+                {{ c.title }}
+            {% endfor %}
+        {% elif lecturer %}
+            {% for l in lecturer %}
+                {{ l.title }}
+            {% endfor %}
+        {% elif facilitator %}
+            {% for f in facilitator %}
+                {{ f.title }}
+            {% endfor %}
+        {% endif %}
+        {{ user.first_name }} {{ user.last_name }}</h1>
+
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <h4>Roles:</h4>
+    {% if coordinator %}
+        <p>Coordinator</p>
+    {% endif %}
+    {% if lecturer %}
+        <p>Lecturer</p>
+    {% endif %}
+    {% if facilitator %}
+        <p>Lab Facilitator</p>
+    {% endif %}
+
+{% endblock %}

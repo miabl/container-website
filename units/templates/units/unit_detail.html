@@ -3,27 +3,54 @@
 {% block content %}
     <h1>{{ unit.code }} {{ unit.title }}</h1>
 
-    <p>Unit Coordinator: {{ unit.coordinator.user.first_name }} {{ unit.coordinator.user.last_name }}
-        {% if perms.units.can_update_teachers %}
-            <a href="{% url 'update_teachers' unit.code %}">Change Teachers</a>
-        {% endif %}
-    </p>
+    {% if perms.units.can_update_unit %}
+        <p><a href="{% url 'update-title' unit.code %}">Update Title</a></p>
+    {% endif %}
+
     <p><strong>Welcome to the unit: </strong>{{ unit.code }}</p>
     <p><strong>Availability</strong>: {{ unit.availability }}</p>
+    {% if perms.units.can_update_unit %}
+        <p><a href="{% url 'update-availability' unit.code %}">Update Availability</a></p>
+    {% endif %}
     <p>{{ unit.summary }}</p>
     {% if perms.units.can_update_unit %}
         <p><a href="{% url 'update_summary' unit.code %}">Update Summary</a></p>
     {% endif %}
-    <h2>Lab Containers:</h2>
+    <p><strong>Lab Containers:</strong></p>
     <div style="margin-left:20px;margin-top:20px">
         {% for cont in unit.containers.all %}
             <h4><a href="{{ cont.get_absolute_url }}">{{ cont.name }}</a></h4>
             <p><strong>Description: </strong>{{ cont.description }}</p>
             <p><strong>Instructions: </strong>{{ cont.instructions }}</p>
         {% endfor %}
+        {% if perms.units.can_update_unit %}
+            <p><a href="{% url 'change-containers' unit.code %}">Change Containers</a></p>
+        {% endif %}
     </div>
+    <h2>Get Help!</h2>
+    <p><strong>Unit Coordinator: </strong><a
+            href="{% url 'user-detail' unit.coordinator.user.id %}">{{ unit.coordinator.user.first_name }} {{ unit.coordinator.user.last_name }}</a>
+    </p>
+    <p><strong>Lecturers: </strong></p>
+    {% for l in unit.lecturer.set_all %}
+        <a
+                href="{% url 'user-detail' l.user.id %}">{{ l.user.first_name }} {{ l.user.last_name }}</a>
+    {% endfor %}
+    <p><strong>Lab Facilitator: </strong></p>
+    {% for f in unit.lab_facilitator.set_all %}
+        <a
+                href="{% url 'user-detail' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a>
+    {% endfor %}
 
+    <p><strong>Enrolled Students</strong>:</p>
+    {% for student in students %}
+        <p>{{ student.user.first_name }} {{ student.user.last_name }}</p>
+    {% endfor %}
+
+    <p><strong>Update Unit</strong>:</p>
     {% if perms.units.can_update_unit %}
         <p><a href="{% url 'delete-unit' unit.code %}">Delete Unit</a></p>
+        <p><a href="{% url 'update-unit' unit.code %}">Update Unit</a></p>
     {% endif %}
+
 {% endblock %}

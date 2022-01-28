@@ -5,62 +5,101 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Add additional CSS in static file -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 </body>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="{% url 'index' %}">Computer Science Labs</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false"
-        aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            {% if user.is_authenticated %}
-                <ul class="navbar-nav ml-auto">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'index' %}">Computer Science Labs</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false"
+    aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if user.is_authenticated %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="{% url 'index' %}"
+                       id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        {{ user.username|title }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg-right"
+                         aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'index' %}">
+                            My Units</a>
+                        <a class="dropdown-item"
+                           href="{% url 'password_change' %}">Change password</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}">
+                            Log Out</a>
+                    </div>
+                </li>
+                {% if perms.units.can_view_all %}
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="{% url 'index' %}"
                            id="navbarDropdown" role="button" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
-                            {{ user.username|title }}
+                            Teacher
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg-right"
-                        aria-labelledby="navbarDropdown">
+                             aria-labelledby="navbarDropdown">
                             <a class="dropdown-item"
-                               href="{% url 'password_change'%}">Change password</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'logout' %}">
-                                Log Out</a>
+                               href="{% url 'teaching' %}">All Units</a>
                         </div>
+
                     </li>
-                </ul>
-            {% else %}
-                <form class="form-inline ml-auto">
-                    <a href="{% url 'login' %}" class="btn btn-outline-light mr-2">
-                        Log In</a>
-                    <a href="{% url 'register' %}" class="btn btn-outline-light">
-                        Sign up</a>
-                </form>
-            {% endif %}
-        </div>
-    </nav>
-    <main>
-        <div class="container">
-            {% block content %}
-            {% endblock content %}
-        </div>
-    </main>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="{% url 'index' %}"
+                       id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Home
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg-right"
+                         aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"
+                           href="{% url 'index' %}">Home Page</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item"
+                           href="{% url 'teacher-list' %}">Staff Directory</a>
+                    </div>
+                </li>
+            </ul>
+        {% else %}
+            <form class="form-inline ml-auto">
+                <a href="{% url 'login' %}" class="btn btn-outline-light mr-2">
+                    Log In</a>
+                <a href="{% url 'register' %}" class="btn btn-outline-light">
+                    Sign up</a>
+            </form>
+        {% endif %}
+    </div>
+</nav>
+<main>
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</main>
 </body>
 </html>
