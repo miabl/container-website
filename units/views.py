@@ -8,14 +8,12 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from units.forms import EditUnitForm, EditTeachersForm, EditTitleForm, EditAvailabilityForm, EditContainersForm
 # from units.form import EnrolStudentForm, DeEnrolStudentForm
-
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
-
 from django.db.models import Q
-
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -213,6 +211,7 @@ class UnitDelete(PermissionRequiredMixin, DeleteView):
     permission_required = 'units.can_update_unit'
     success_url = reverse_lazy('teaching')
 
+
 #
 # @login_required
 # @permission_required('units.can_update_unit', raise_exception=True)
@@ -240,3 +239,26 @@ class UnitDelete(PermissionRequiredMixin, DeleteView):
 #         'student': student,
 #     }
 #
+
+class TeacherListView(LoginRequiredMixin, generic.ListView):
+    login_url = 'accounts/login/'
+    User = get_user_model()
+    model = User
+    template_name = 'units/teacher.html'
+
+
+from .models import Coordinator, Lecturer, LabFacilitator
+
+
+class UserDetailView(LoginRequiredMixin, generic.DetailView):
+    login_url = 'accounts/login/'
+    User = get_user_model()
+    model = User
+    template_name = 'units/user_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        context['coordinator'] = Coordinator.objects.filter(user=self.get_object())
+        context['lecturer'] = Lecturer.objects.filter(user=self.get_object())
+        context['facilitator'] = LabFacilitator.objects.filter(user=self.get_object())
+        return context
