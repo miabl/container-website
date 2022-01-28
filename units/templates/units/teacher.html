@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h2>Staff Directory</h2>
+    <table style="width:100%">
+        <tr>
+            <th>User</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+        {% if user_list %}
+            {% for user in user_list %}
+                <tr>
+                    {% if user.coordinator_set.all or user.lecturer.set_all or user.lab_facilitator.set_all %}
+                        <td><a href="{% url 'user-detail' user.id %}">{{ user }}</a></td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.coordinator_set.all %}
+                                Coordinator,
+                            {% endif %}
+                            {% if user.lecturer_set.all %}
+                                Lecturer,
+                            {% endif %}
+                            {% if user.lab_facilitator_set.all %}
+                                Facilitator,
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+            <p>No Staff available</p>
+        {% endif %}
+{% endblock %}

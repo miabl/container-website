@@ -45,6 +45,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg-right"
                          aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'index' %}">
+                            My Units</a>
                         <a class="dropdown-item"
                            href="{% url 'password_change' %}">Change password</a>
                         <div class="dropdown-divider"></div>
@@ -52,14 +54,37 @@
                             Log Out</a>
                     </div>
                 </li>
+                {% if perms.units.can_view_all %}
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="{% url 'index' %}"
+                           id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            Teacher
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg-right"
+                             aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"
+                               href="{% url 'teaching' %}">All Units</a>
+                        </div>
+
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="{% url 'index' %}"
+                       id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Home
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg-right"
+                         aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"
+                           href="{% url 'index' %}">Home Page</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item"
+                           href="{% url 'teacher-list' %}">Staff Directory</a>
+                    </div>
+                </li>
             </ul>
-            {% if perms.units.can_view_all %}
-                <hr/>
-                <ul class="sidebar-nav">
-                    <p><strong>Teacher</strong></p>
-                    <li><a href="{% url 'teaching' %}">All Units</a></li>
-                </ul>
-            {% endif %}
         {% else %}
             <form class="form-inline ml-auto">
                 <a href="{% url 'login' %}" class="btn btn-outline-secondary">

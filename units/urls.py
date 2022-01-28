@@ -44,3 +44,11 @@ urlpatterns += [
 # urlpatterns += [
 #     path('unit/<pk>/editenrolment/', views.edit_enrolment, name='edit-enrolment'),
 # ]
+
+urlpatterns += [
+    path('coordinator', views.TeacherListView.as_view(), name='teacher-list'),
+]
+
+urlpatterns += [
+    path('coordinator/<pk>', views.UserDetailView.as_view(), name='user-detail'),
+]

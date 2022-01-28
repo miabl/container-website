@@ -62,7 +62,7 @@ class Unit(models.Model):
 
 
 class Coordinator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="", unique=True)
 
     """Model representing a coordinator"""
     title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')
@@ -73,7 +73,7 @@ class Coordinator(models.Model):
 
 
 class Lecturer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="", unique=True)
 
     """Model representing a coordinator"""
     title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')
@@ -84,7 +84,7 @@ class Lecturer(models.Model):
 
 
 class LabFacilitator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="", unique=True)
 
     """Model representing a coordinator"""
     title = models.CharField(max_length=10, default='', help_text='E.g. Dr. Prof. Mr.')
