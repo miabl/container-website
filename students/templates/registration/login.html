@@ -18,7 +18,7 @@
   <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
       {{ form.as_p }}
-      <button class="btn btn-success ml-2" type="submit">Login</button>
+      <button class="btn btn-success" type="submit">Login</button>
 {#    <table>#}
 {#      <tr>#}
 {#        <td>{{ form.username.label_tag }}</td>#}
