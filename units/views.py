@@ -14,6 +14,7 @@ from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
+from .models import Coordinator, Lecturer, LabFacilitator
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -245,9 +246,6 @@ class TeacherListView(LoginRequiredMixin, generic.ListView):
     User = get_user_model()
     model = User
     template_name = 'units/teacher.html'
-
-
-from .models import Coordinator, Lecturer, LabFacilitator
 
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
