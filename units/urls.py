@@ -52,3 +52,7 @@ urlpatterns += [
 urlpatterns += [
     path('coordinator/<pk>', views.UserDetailView.as_view(), name='user-detail'),
 ]
+
+# urlpatterns += [
+#     path('coordinator/<pk>/addStudent', views.UserDetailView.as_view(), name='add-student'),
+# ]

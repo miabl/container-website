@@ -1,0 +1,8 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <p>{{ student.user.first_name }} {{ student.user.last_name }}</p>
+
+    <a href="{% url 'add-student' student.user %}">Change Enrolment</a>
+
+{% endblock %}

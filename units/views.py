@@ -1,5 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
+# from django.contrib.auth.mixins import LoginRequiredMixin
+# from django.views import generic
 from .models import Unit
 from students.models import Student
 from django.shortcuts import render
@@ -13,8 +13,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 from .models import Coordinator, Lecturer, LabFacilitator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import generic
+from django.contrib.auth import get_user_model
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -259,4 +262,15 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView):
         context['coordinator'] = Coordinator.objects.filter(user=self.get_object())
         context['lecturer'] = Lecturer.objects.filter(user=self.get_object())
         context['facilitator'] = LabFacilitator.objects.filter(user=self.get_object())
+        context['student'] = Student.objects.filter(user=self.get_object())
         return context
+
+# class StudentUpdate(LoginRequiredMixin, UpdateView):
+#     login_url = 'accounts/login'
+#     model = Student
+#     fields = ['user', 'units']
+
+# def get_initial(self):
+#     initial = super(StudentUpdate, self).get_initial()
+#     initial.update({'user': self.request.user})
+#     return initial

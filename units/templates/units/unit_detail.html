@@ -33,14 +33,18 @@
     </p>
     <p><strong>Lecturers: </strong></p>
     {% for l in unit.lecturer.set_all %}
-        <a
-                href="{% url 'user-detail' l.user.id %}">{{ l.user.first_name }} {{ l.user.last_name }}</a>
+        <p><a href="{% url 'user-detail' l.user.id %}">{{ l.user.first_name }} {{ l.user.last_name }}</a></p>
     {% endfor %}
     <p><strong>Lab Facilitator: </strong></p>
-    {% for f in unit.lab_facilitator.set_all %}
-        <a
-                href="{% url 'user-detail' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a>
+    {% for fa in unit.lab_facilitator.all %}
+        {% for f in fa.set_all %}
+            {{ f.user }}
+            <a href="{% url 'user-detail' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a>
+        {% endfor %}
     {% endfor %}
+    {% if perms.units.can_update_unit %}
+        <p><a href="{% url 'update_teachers' unit.code %}">Change Teachers</a></p>
+    {% endif %}
 
     <p><strong>Enrolled Students</strong>:</p>
     {% for student in students %}

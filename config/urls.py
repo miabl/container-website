@@ -10,6 +10,7 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('containers/', include('containers.urls')),
                   path('units/', include('units.urls')),
+                  path('students/', include('students.urls')),
                   path('accounts/', include('django.contrib.auth.urls')),
                   path('register/', views.register, name="register"),
                   path('', unitview.IndexView.as_view(), name='index'),
